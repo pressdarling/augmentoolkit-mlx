@@ -1,0 +1,112 @@
+# Unified Pipeline Configuration
+# This YAML file configures the entire Augmentoolkit → MLX pipeline
+
+pipeline:
+  name: "augmentoolkit-mlx-demo"
+  version: "1.0.0"
+  description: "End-to-end pipeline from documents to fine-tuned MLX model"
+
+# Input data configuration
+input:
+  documents_dir: "./input_docs"
+  file_types: [".txt", ".md", ".pdf"]
+  max_file_size_mb: 50
+
+# Augmentoolkit data generation configuration
+augmentoolkit:
+  config_file: "./submodules/augmentoolkit/config.yaml"
+  output_dir: "./data/augmentoolkit_output"
+  model_name: "mlx-community/Qwen2.5-7B-Instruct-4bit"
+  generation_params:
+    temperature: 0.7
+    max_tokens: 2048
+  prompts_override: null  # Use default prompts or specify custom path
+
+# Format conversion configuration  
+conversion:
+  input_file: "./data/augmentoolkit_output/simplified_data_no_R.jsonl"
+  output_base: "./data/mlx_format/training_data"
+  train_ratio: 0.9
+  validation_ratio: 0.1
+
+# MLX training configuration
+mlx_training:
+  framework: "mlx-tuning-fork"  # or "mlx-lm" for basic training
+  
+  # Model configuration
+  model:
+    base_model: "mlx-community/Qwen2.5-7B-Instruct-4bit"
+    model_type: "lora"  # lora, qlora, or full
+    
+  # Training parameters
+  training:
+    batch_size: 2
+    learning_rate: 1e-4
+    num_epochs: 3
+    max_seq_length: 2048
+    lora_rank: 16
+    lora_alpha: 32
+    lora_dropout: 0.1
+    gradient_accumulation_steps: 4
+    
+  # Hardware optimization for Mac Studio M1 Ultra
+  hardware:
+    use_metal: true
+    memory_limit_gb: 60
+    mixed_precision: true
+    
+  # Output configuration
+  output:
+    adapter_dir: "./models/adapters"
+    checkpoint_dir: "./models/checkpoints"
+    final_model_dir: "./models/final"
+    save_steps: 100
+    eval_steps: 50
+
+# Post-processing configuration
+post_processing:
+  fuse_adapter: true
+  quantize_output: true
+  test_model: true
+  upload_to_hf: false
+  hf_repo_name: null
+
+# Environment and dependencies
+environment:
+  python_version: "3.11"
+  required_packages:
+    - "mlx>=0.5.0"
+    - "mlx-lm>=0.2.3"
+    - "transformers>=4.41.0"
+    - "datasets>=2.19.0"
+    - "tqdm>=4.66"
+    - "pyyaml>=6.0"
+  
+  # MLX-specific optimizations
+  mlx_config:
+    backend: "metal"
+    memory_pool_limit: "80%"
+    allow_cpu_fallback: true
+
+# Logging and monitoring
+logging:
+  level: "INFO"
+  log_file: "./logs/pipeline.log"
+  wandb:
+    enabled: false
+    project_name: null
+    run_name: null
+
+# Pipeline execution control
+execution:
+  skip_data_generation: false
+  skip_conversion: false  
+  skip_training: false
+  skip_evaluation: false
+  cleanup_intermediate: false
+  
+# Resource monitoring
+monitoring:
+  track_memory_usage: true
+  track_training_time: true
+  save_system_stats: true

@@ -1,0 +1,20 @@
+[project]
+name = "domain-expert-llm"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "mlx",
+    "mlx-lm",
+    "transformers",
+    "pandas",
+    "rich",
+    "typer",
+    "huggingface_hub",
+]
+
+[tool.uv]
+virtual = true
+
+[tool.uv.scripts]
+train = "python scripts/finetune.py"
+serve = "uvicorn scripts.serve_api:app --host 0.0.0.0 --port 8080"

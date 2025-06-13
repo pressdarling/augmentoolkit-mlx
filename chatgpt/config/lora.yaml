@@ -1,0 +1,11 @@
+# MLX-LM LoRA fine-tuning configuration example
+model: "mistralai/Mistral-7B-Instruct-v0.3"
+data: "data/train.jsonl"
+adapter_path: "data/checkpoints/my_adapter"
+iters: 1000
+batch_size: 4
+learning_rate: 1e-4
+lora_layers: 16
+rank: 8
+lora_alpha: 16
+lora_dropout: 0.05

@@ -1,0 +1,9 @@
+# Augmentoolkit configuration example
+INPUT_DIR: "./docs"
+OUTPUT_FILE: "data/raw.jsonl"
+INFERENCE_BACKEND: "mlx_backend.MLXBackend"
+PIPELINE:
+  - name: generate_qa
+    params:
+      temperature: 0.0
+      max_tokens: 256

@@ -1,0 +1,3 @@
+pipeline_order:
+  - folder: "libs/augmentoolkit/original"
+    config: "libs/augmentoolkit/original/config.yaml"

@@ -1,0 +1,3 @@
+[submodule "libs/augmentoolkit"]
+	path = libs/augmentoolkit
+	url = https://github.com/e-p-armstrong/augmentoolkit.git

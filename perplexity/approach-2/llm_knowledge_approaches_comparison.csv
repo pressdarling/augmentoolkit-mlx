@@ -1,0 +1,7 @@
+Approach,Implementation_Time,Ongoing_Updates,Knowledge_Scope,Memory_Footprint,Best_Use_Case,Mac_M1_Ultra_Feasible
+RAG,1-3 days,Real-time,Limited by retrieval,Base model + DB,Dynamic knowledge,Yes
+Full Fine-tuning,1-2 weeks,Full retrain,Comprehensive,Full model,Domain specialization,Limited (≤8B)
+LoRA/QLoRA,2-5 days,New LoRA adapter,Targeted domains,Base + adapters,Task adaptation,Yes (≤30B)
+Augmentoolkit,3-7 days,Retrain model,Document-specific,Full fine-tuned,Document expertise,Yes (≤13B gen)
+In-Context Learning,1 hour,Instant,Context window,Base model only,Quick prototyping,Yes
+Model Editing,1-2 days,Point updates,Single facts,Modified model,Fact correction,Yes

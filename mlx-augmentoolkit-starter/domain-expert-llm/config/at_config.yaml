@@ -1,0 +1,7 @@
+# Minimal Augmentoolkit config example
+pipeline:
+  - type: question_generation
+    params:
+      n: 1
+      style: "factual"
+output_format: jsonl
